@@ -15,13 +15,27 @@ const WHATSAPP_NUMBER = "5491134950797";
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-  /* ---------- Enlaces de WhatsApp ---------- */
+
+  /* ---------- Enlaces y conversiones de WhatsApp ---------- */
   document.querySelectorAll("[data-whatsapp]").forEach(function (link) {
-    var message = link.getAttribute("data-msg") || "Hola, quisiera recibir asesoramiento.";
-    link.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+    var message = link.getAttribute("data-msg") ||
+      "Hola, quisiera recibir asesoramiento.";
+
+    link.href = "https://wa.me/" + WHATSAPP_NUMBER +
+      "?text=" + encodeURIComponent(message);
+
     link.target = "_blank";
     link.rel = "noopener noreferrer";
+
+    link.addEventListener("click", function () {
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "conversion", {
+          send_to: "AW-18535486678/mWygCJyCrqodENaptIZF"
+        });
+      }
+    });
   });
+
 
   /* ---------- Año del pie ---------- */
   var year = document.querySelector("[data-year]");
